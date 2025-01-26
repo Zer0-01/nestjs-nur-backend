@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { DoaService } from './doa.service';
 import { CreateDoaDto } from './dto/create-doa.dto';
 import { UpdateDoaDto } from './dto/update-doa.dto';
 
 @Controller('doa')
+@UsePipes(new ValidationPipe())
 export class DoaController {
   constructor(private readonly doaService: DoaService) { }
 
