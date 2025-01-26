@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDoaDto } from './dto/create-doa.dto';
 import { UpdateDoaDto } from './dto/update-doa.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Doa } from './entities/doa.entity';
+import { Repository } from 'typeorm/repository/Repository';
 
 @Injectable()
 export class DoaService {
-  create(createDoaDto: CreateDoaDto) {
-    return 'This action adds a new doa';
+  constructor(@InjectRepository(Doa) private readonly doaRepository: Repository<Doa>) { }
+
+  createDoa(createDoaDto: CreateDoaDto): Promise<Doa> {
+    const doa: Doa = new Doa();
+    doa.title = createDoaDto.title;
+    doa.content = createDoaDto.content;
+    doa.translation = createDoaDto.translation;
+    return this.doaRepository.save(doa);
   }
 
-  findAll() {
-    return `This action returns all doa`;
+  findAllDoa(): Promise<Doa[]> {
+    return this.doaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} doa`;
+  findDoa(id: number): Promise<Doa | null> {
+    return this.doaRepository.findOneBy({ id });
+  }
+  async updateDoa(id: number, updateDoaDto: UpdateDoaDto): Promise<Doa> {
+    const existingDoa = await this.doaRepository.findOneBy({ id });
+    if (!existingDoa) {
+      throw new Error('Doa not found');
+    }
+
+    existingDoa.title = updateDoaDto.title ?? existingDoa.title;
+    existingDoa.content = updateDoaDto.content ?? existingDoa.content;
+    existingDoa.translation = updateDoaDto.translation ?? existingDoa.translation;
+
+    return this.doaRepository.save(existingDoa);
   }
 
-  update(id: number, updateDoaDto: UpdateDoaDto) {
-    return `This action updates a #${id} doa`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} doa`;
+  async removeDoa(id: number): Promise<{ affected?: number }> {
+    const result = await this.doaRepository.delete(id);
+    return { affected: result.affected ?? undefined };
   }
 }

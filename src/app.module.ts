@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DoaModule } from './doa/doa.module';
+import { Doa } from './doa/entities/doa.entity';
 
 @Module({
   imports: [
@@ -10,7 +11,7 @@ import { DoaModule } from './doa/doa.module';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      entities: [],
+      entities: [Doa],
       username: 'postgres',
       password: 'Blackkuro01#',
       database: 'Nur',

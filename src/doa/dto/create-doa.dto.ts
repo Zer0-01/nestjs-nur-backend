@@ -3,13 +3,13 @@ import { isNotEmpty, IsNotEmpty, IsString } from "class-validator";
 export class CreateDoaDto {
     @IsString()
     @IsNotEmpty()
-    title: String;
+    title: string;
 
     @IsNotEmpty()
     @IsString()
-    content: String;
+    content: string;
 
     @IsNotEmpty()
     @IsString()
-    translation: String;
+    translation: string;
 }
