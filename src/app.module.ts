@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DoaModule } from './doa/doa.module';
 import { Doa } from './doa/entities/doa.entity';
+import { MosqueModule } from './mosque/mosque.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Doa } from './doa/entities/doa.entity';
       logging: true,
     }),
     DoaModule,
+    MosqueModule,
   ],
   controllers: [AppController],
   providers: [AppService],

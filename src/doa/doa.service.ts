@@ -17,8 +17,9 @@ export class DoaService {
     return this.doaRepository.save(doa);
   }
 
-  findAllDoa(): Promise<Doa[]> {
-    return this.doaRepository.find();
+  async findAllDoa(): Promise<{ data: Doa[]; total: number }> {
+    const [data, total] = await this.doaRepository.findAndCount();
+    return { data, total };
   }
 
   findDoa(id: number): Promise<Doa | null> {
